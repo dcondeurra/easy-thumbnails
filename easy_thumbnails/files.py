@@ -656,6 +656,7 @@ class ThumbnailerFieldFile(FieldFile, Thumbnailer):
     """
     def __init__(self, *args, **kwargs):
         super(ThumbnailerFieldFile, self).__init__(*args, **kwargs)
+        self.storage = storage.thumbnail_default_storage or self.field.storage
         self.source_storage = self.field.storage
         thumbnail_storage = getattr(self.field, 'thumbnail_storage', None)
         if thumbnail_storage:
@@ -731,7 +732,7 @@ class ThumbnailerFieldFile(FieldFile, Thumbnailer):
         state.update({
             k: v
             for k, v in self.__dict__.items()
-            if k.startswith('thumbnail') or k in ['generate', 'remote_source', 'source_storage']
+            if k.startswith('thumbnail') or k in ['generate', 'remote_source', 'source_storage', 'storage']
         })
         return state
 
